@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .container-fluid
+        form(method='post', action='contact/send')
+            h1 #{title}
+            .form-group
+                label Name
+                input.form-control(type='text', name='name', placeholder='Name')
+            .form-group
+                label Email
+                input.form-control(type='email', name='email', placeholder='Email')
+            .form-group
+                label Message
+                textarea.form-control(name='message', placeholder='Your Message')
+            button.btn.btn-outline-primary(type='submit') Submit

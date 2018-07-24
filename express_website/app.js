@@ -24,6 +24,36 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about',{title: 'About Us'});
 });
+app.get('/contact', (req, res) => {
+    res.render('contact',{title: 'Contact Us'});
+});
+app.post('/contact/send', (req, res) => {
+    console.log( 'POST', req.body);
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'clinton.milner@gmail.com',
+            pass: 'cl!Nt0N311!'
+        }
+    });
+
+    const mailOptions = {
+        from: 'Clint Milner <clinton.milner@gmail.com>',
+        to: 'me@clintmilner.com',
+        text: `You have a Contact Form submission...\n ${req.body.name} | ${req.body.email} | ${req.body.message}`,
+        html: `<p>You have a Contact Form submission...<br /> ${req.body.name} | ${req.body.email} | ${req.body.message}</p>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if(error){
+            console.log('ERROR', error);
+            res.redirect('/');
+        } else {
+            console.log('SUCCESS!', info.response);
+            res.redirect('/');
+        }
+    });
+});
 
 
 app.listen(port);
